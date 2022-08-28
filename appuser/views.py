@@ -1,0 +1,75 @@
+from django.shortcuts import render,redirect
+from django.views import View
+from .forms import RegisterForm,AppUserForm
+from .models import AppUser
+
+# Create your views here.
+
+
+class CreateUserView(View):
+
+    ''''Create user view to create appuser and user'''
+
+    def get(self,request,*args,**kwargs):
+
+        '''Method to display user form'''
+
+        userform=RegisterForm()
+        return render(request,'appuser/register.html',{'userform':userform})
+
+
+    def post(self,request,*args,**kwargs):
+
+        '''Method to create the user'''
+
+        userform=RegisterForm(request.POST)
+        print(userform.is_valid())
+        print(userform)
+        if userform.is_valid() :
+            user=userform.save()
+            return redirect('userapp:appuser_update',userid=user.id)
+        else:
+            return redirect('userapp:failure_page')
+
+class EditAppUser(View):
+
+
+    def get(self,request,userid,*args,**kwargs):
+
+        '''Method to display app user form with data populated'''
+
+        appuser=AppUser.objects.filter(user_id=userid)
+        appuser_form=AppUserForm(instance=appuser[0])
+        return render(request,'appuser/app_user.html',{'appuser_form':appuser_form})
+
+
+    def post(self,request,userid,*args,**kwargs):
+
+        '''Method to save the app user updated form'''
+        appuser = AppUser.objects.filter(user_id=userid)
+        appuser_form=AppUserForm(request.POST,instance=appuser[0])
+        if appuser_form.is_valid() :
+            appuser_form.save()
+            return redirect('userapp:success_page')
+        else:
+            return redirect('userapp:failure_page')
+
+
+def test_page(request):
+
+    '''Sucess page method'''
+
+    return render(request,'appuser/success.html')
+
+def test_failure(request):
+
+    '''Failure page method'''
+
+    return render(request,'appuser/failure.html')
+
+
+
+
+
+
+

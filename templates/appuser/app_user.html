@@ -1,0 +1,25 @@
+tml>
+<h1>App User</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <div>
+            {{appuser_form.location.label}}
+        </div>
+        <div>
+            {{appuser_form.location}}
+        </div>
+    </div>
+    <div>
+        <div>
+           {{appuser_form.bio.label}}
+        </div>
+        <div>
+            {{appuser_form.bio}}
+        </div>
+    </div>
+    <div>
+        <input type="submit" name="Add User">
+    </div>
+</form>
+</html>
