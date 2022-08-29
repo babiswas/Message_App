@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from django.views import View
 from .forms import RegisterForm,AppUserForm
 from .models import AppUser
+from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -53,6 +57,16 @@ class EditAppUser(View):
             return redirect('userapp:success_page')
         else:
             return redirect('userapp:failure_page')
+
+
+class UserAPI(APIView):
+
+    '''User related apis'''
+
+    def get(self,request):
+        users=User.objects.all()
+        alluser=UserSerializer(users,many=True)
+        return Response(alluser.data)
 
 
 def test_page(request):
