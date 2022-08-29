@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+from django.utils.six import BytesIO
+from rest_framework.decorators import renderer_classes,api_view
 
 # Create your views here.
 
@@ -27,10 +30,9 @@ class CreateUserView(View):
         '''Method to create the user'''
 
         userform=RegisterForm(request.POST)
-        print(userform.is_valid())
-        print(userform)
         if userform.is_valid() :
-            user=userform.save()
+            user=userform.save(commit=True)
+            print(user)
             return redirect('userapp:appuser_update',userid=user.id)
         else:
             return redirect('userapp:failure_page')
@@ -69,6 +71,9 @@ class UserAPI(APIView):
         return Response(alluser.data)
 
 
+
+
+
 def test_page(request):
 
     '''Sucess page method'''
@@ -80,6 +85,13 @@ def test_failure(request):
     '''Failure page method'''
 
     return render(request,'appuser/failure.html')
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def user_list(request):
+    users=User.objects.all()
+    all_user=UserSerializer(users,many=True)
+    return Response(all_user.data)
 
 
 

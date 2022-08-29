@@ -19,7 +19,6 @@ class AppUser(models.Model):
 def create_user_appuser(sender,instance,created,**kwargs):
     if created:
         AppUser.objects.create(user=instance)
-    instance.appuser.save()
 
 @receiver(post_save,sender=User)
 def save_user_appuser(sender,instance,created,**kwargs):
