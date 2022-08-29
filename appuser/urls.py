@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import CreateUserView,test_page,test_failure,EditAppUser,UserAPI,user_list
+from .views import CreateUserView,test_page,test_failure,EditAppUser,UserAPI,user_list,app_user_list
 
 app_name='userapp'
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('failure/', test_failure, name='failure_page'),
     path('alluser/',UserAPI.as_view(),name='all_user_api'),
     path('accountusers/',user_list,name='test_users'),
+    path('app_users/',app_user_list,name='test_users'),
 ]

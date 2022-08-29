@@ -4,7 +4,7 @@ from .forms import RegisterForm,AppUserForm
 from .models import AppUser
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer,AppUserSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from django.utils.six import BytesIO
@@ -92,6 +92,13 @@ def user_list(request):
     users=User.objects.all()
     all_user=UserSerializer(users,many=True)
     return Response(all_user.data)
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def app_user_list(request):
+    app_user=AppUser.objects.all()
+    all_app_users=AppUserSerializer(app_user,many=True)
+    return Response(all_app_users.data)
 
 
 
