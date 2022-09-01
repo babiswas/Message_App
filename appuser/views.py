@@ -71,9 +71,6 @@ class UserAPI(APIView):
         return Response(alluser.data)
 
 
-
-
-
 def test_page(request):
 
     '''Sucess page method'''
@@ -89,6 +86,9 @@ def test_failure(request):
 @api_view(('GET',))
 @renderer_classes((JSONRenderer,))
 def user_list(request):
+
+    '''User list controller using Json Renderer'''
+
     users=User.objects.all()
     all_user=UserSerializer(users,many=True)
     return Response(all_user.data)
@@ -96,9 +96,17 @@ def user_list(request):
 @api_view(('GET',))
 @renderer_classes((JSONRenderer,))
 def app_user_list(request):
+
+    '''App users list using api view and json renderer'''
+
     app_user=AppUser.objects.all()
     all_app_users=AppUserSerializer(app_user,many=True)
     return Response(all_app_users.data)
+
+
+
+
+
 
 
 
