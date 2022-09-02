@@ -26,7 +26,3 @@ class Message(models.Model):
     sender=models.ForeignKey(User,on_delete=models.DO_NOTHING)
 
 
-    def __init__(self):
-        return self.message
-
-

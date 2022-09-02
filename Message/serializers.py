@@ -6,11 +6,11 @@ from appuser.models import AppUser
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['message']
+        fields = ['message','sender']
 
 class AppUserSerializer(serializers.ModelSerializer):
-    messages = serializers.StringRelatedField(many=True)
+    messages =MessageSerializer(many=True,read_only=True)
 
     class Meta:
         model = AppUser
-        fields = ['bio','location']
+        fields = ['bio','location','messages']
