@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import CreateUserView,test_page,test_failure,EditAppUser,UserAPI,user_list,app_user_list,AppUserDetail
+from .views import CreateUserView,test_page,test_failure,EditAppUser,UserAPI,user_list,app_user_list,AppUserDetail,user_list_v2
 
 app_name='userapp'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('accountusers/',user_list,name='test_users'),
     path('app_users/',app_user_list,name='test_users'),
     path('app_user_detail/<int:pk>',AppUserDetail.as_view(),name='app_user_detail'),
+    path('v2/user_detail/<int:pk>',user_list_v2,name='app_user_detail'),
 ]

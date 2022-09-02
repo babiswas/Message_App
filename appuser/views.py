@@ -4,7 +4,7 @@ from .forms import RegisterForm,AppUserForm
 from .models import AppUser
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from .serializers import UserSerializer,AppUserSerializer,ModelAppUserSerializer
+from .serializers import UserSerializer,AppUserSerializer,ModelAppUserSerializer,ModelUserSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from django.utils.six import BytesIO
@@ -146,6 +146,16 @@ class AppUserDetail(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def user_list_v2(request,pk):
+
+    '''User detail controller using Json Renderer'''
+
+    user=User.objects.get(pk=pk)
+    current_user=ModelUserSerializer(user)
+    return Response(current_user.data)
 
 
 
