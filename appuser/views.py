@@ -4,7 +4,7 @@ from .forms import RegisterForm,AppUserForm
 from .models import AppUser
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from .serializers import UserSerializer,AppUserSerializer
+from .serializers import UserSerializer,AppUserSerializer,ModelAppUserSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from django.utils.six import BytesIO
@@ -102,6 +102,50 @@ def app_user_list(request):
     app_user=AppUser.objects.all()
     all_app_users=AppUserSerializer(app_user,many=True)
     return Response(all_app_users.data)
+
+
+class AppUserDetail(APIView):
+
+    '''Update appuser methods'''
+
+    def get_object(self,pk):
+
+        '''Method to get app user detail'''
+
+        try:
+            return AppUser.objects.get(pk=pk)
+        except AppUser.DoesNotExist:
+            raise Http404
+
+
+    def get(self,request,pk,format=None):
+
+        '''Appuser detail'''
+
+        appuser=self.get_object(pk)
+        serializer=ModelAppUserSerializer(appuser)
+        return Response(serializer.data)
+
+
+    def put(self,request,pk,format=None):
+
+        '''Appuser update method'''
+
+        appuser=self.get_object(pk)
+        serializer = ModelAppUserSerializer(appuser,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request, pk, format=None):
+
+        '''Appuser delete method'''
+
+        snippet = self.get_object(pk)
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
