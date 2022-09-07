@@ -14,6 +14,7 @@ class AppUserSerializer(serializers.ModelSerializer):
     '''Appuser Serializer'''
 
     messages =MessageSerializer(many=True,read_only=True)
+    created_by=UserSerializer(read_only=True)
 
     class Meta:
         model = AppUser
