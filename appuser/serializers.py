@@ -29,7 +29,7 @@ class ModelAppUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AppUser
-        fields = ['bio','location']
+        fields = ['bio','location','user']
 
 
 class ModelUserSerializer(serializers.ModelSerializer):

@@ -158,6 +158,17 @@ def user_list_v2(request,pk):
     return Response(current_user.data)
 
 
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def all_app_user_list(request):
+
+    '''App users list using api view and json renderer'''
+
+    app_user=AppUser.objects.all()
+    all_app_users=ModelAppUserSerializer(app_user,many=True)
+    return Response(all_app_users.data)
+
+
 
 
 
