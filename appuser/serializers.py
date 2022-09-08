@@ -26,7 +26,7 @@ class AppUserSerializer(serializers.Serializer):
 class ModelAppUserSerializer(serializers.ModelSerializer):
 
     ''''ModelAppUserSerializer for app user updation and detail'''
-
+    user=UserSerializer(read_only=True)
     class Meta:
         model = AppUser
         fields = ['bio','location','user']
