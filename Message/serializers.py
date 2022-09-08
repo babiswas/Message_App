@@ -5,6 +5,7 @@ from appuser.serializers import UserSerializer
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    sender=UserSerializer(read_only=True)
     class Meta:
         model = Message
         fields = ['message','sender']
