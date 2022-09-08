@@ -3,24 +3,21 @@ version: "3.8"
 services:
   db:
     environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=36network
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=36network
     image: "postgres:10.22-alpine"
     ports:
       - "5436:5432"
     restart: always
     volumes:
+      - ./init_db.sh:/var/lib/postgresql/init_db.sh
       - ./data/db:/var/lib/postgresql/data
   web:
     build: "."
     command: "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
-    environment:
-      - POSTGRES_NAME=app
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=36network
     ports:
       - "8000:8000"
     volumes:
